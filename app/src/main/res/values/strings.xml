@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GitHubPositions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_list_footer_error">Error! Tap to retry</string>
+    <string name="text_error">Error! Tap to retry</string>
+    <string name="text_loading">Loading...</string>
+    <string name="message_not_found">Not found</string>
+</resources>
