@@ -10,6 +10,11 @@ import io.reactivex.schedulers.Schedulers
 import ru.dm.githubpositions.data.models.Position
 import ru.dm.githubpositions.data.models.State
 import ru.dm.githubpositions.data.responses.PositionResponse
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class PositionsDataSource(
     private val networkService: GitHubPositionsService,
@@ -18,6 +23,8 @@ class PositionsDataSource(
 
     var state: MutableLiveData<State> = MutableLiveData()
     private var retryCompletable: Completable? = null
+    private val format = SimpleDateFormat("dd/MM/yyyy")
+    private val parser = SimpleDateFormat("EEE MMM d HH:mm:ss 'UTC' yyyy")
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -85,7 +92,7 @@ class PositionsDataSource(
         positionResponse.apply {
             return Position(
                 positionResponse.id,
-                createdAt,
+                toInnerDateString(createdAt),
                 removeTags(company),
                 removeTags(title),
                 removeTags(description),
@@ -95,7 +102,16 @@ class PositionsDataSource(
         }
     }
 
-    private fun removeTags(string: String?) : String {
-        return string?.replace("<[^>]*>".toRegex(),"") ?: ""
+    private fun removeTags(string: String?): String {
+        return string?.replace("<[^>]*>".toRegex(), "") ?: ""
+    }
+
+    private fun toInnerDateString(string: String): String {
+        try {
+            val date = parser.parse(string) ?: return ""
+            return format.format(date)
+        } catch (exception: ParseException) {
+            return ""
+        }
     }
 }
