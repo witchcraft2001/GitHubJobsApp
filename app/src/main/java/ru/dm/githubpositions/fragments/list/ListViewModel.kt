@@ -42,13 +42,9 @@ class ListViewModel(
             putString(DetailsFragment.POSITION_ID, position.id)
             putString(DetailsFragment.POSITION_TITLE, position.title)
             putString(DetailsFragment.POSITION_COMPANY, position.company)
-            putString(DetailsFragment.POSITION_COMPANY_URL, position.companyUrl)
             putString(DetailsFragment.POSITION_CREATED_AT, position.createdAt)
             putString(DetailsFragment.POSITION_DESCRIPTION, position.description)
             putString(DetailsFragment.POSITION_HOW_TO_APPLY, position.howToApply)
-            putString(DetailsFragment.POSITION_LOCATION, position.location)
-            putString(DetailsFragment.POSITION_TYPE, position.type)
-            putString(DetailsFragment.POSITION_URL, position.url)
         }
         navigationService.navigate(FragmentNavigationIntent(DetailsFragment::class.java, bundle))
     }

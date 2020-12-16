@@ -6,7 +6,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ru.dm.githubpositions.data.models.Position
+import ru.dm.githubpositions.data.responses.PositionResponse
 
 interface GitHubPositionsService {
     companion object{
@@ -23,5 +23,5 @@ interface GitHubPositionsService {
     @GET("positions.json")
     fun getPositions(
         @Query("page") page: Int
-    ): Single<List<Position>>
+    ): Single<List<PositionResponse>>
 }

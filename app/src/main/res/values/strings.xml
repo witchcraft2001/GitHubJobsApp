@@ -6,4 +6,8 @@
     <string name="text_error">Error! Tap to retry</string>
     <string name="text_loading">Loading...</string>
     <string name="message_not_found">Not found</string>
+    <string name="text_label_title">Title</string>
+    <string name="btn_retry">Retry</string>
+    <string name="text_label_how_to_apply">How to apply:</string>
+    <string name="text_label_description">Description:</string>
 </resources>

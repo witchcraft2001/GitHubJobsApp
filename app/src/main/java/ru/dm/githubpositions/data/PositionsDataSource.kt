@@ -9,6 +9,7 @@ import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import ru.dm.githubpositions.data.models.Position
 import ru.dm.githubpositions.data.models.State
+import ru.dm.githubpositions.data.responses.PositionResponse
 
 class PositionsDataSource(
     private val networkService: GitHubPositionsService,
@@ -25,6 +26,7 @@ class PositionsDataSource(
         updateState(State.LOADING)
         compositeDisposable.add(
             networkService.getPositions(0)
+                .map { toListModel(it) }
                 .subscribe(
                     { response ->
                         updateState(State.DONE)
@@ -44,6 +46,7 @@ class PositionsDataSource(
         updateState(State.LOADING)
         compositeDisposable.add(
             networkService.getPositions(params.key)
+                .map { toListModel(it) }
                 .subscribe(
                     { response ->
                         updateState(State.DONE)
@@ -73,5 +76,26 @@ class PositionsDataSource(
 
     private fun updateState(state: State) {
         this.state.postValue(state)
+    }
+
+    private fun toListModel(list: List<PositionResponse>) =
+        list.map { item -> toModel(item) }.toList()
+
+    private fun toModel(positionResponse: PositionResponse): Position {
+        positionResponse.apply {
+            return Position(
+                positionResponse.id,
+                createdAt,
+                removeTags(company),
+                removeTags(title),
+                removeTags(description),
+                removeTags(howToApply),
+                companyLogo
+            )
+        }
+    }
+
+    private fun removeTags(string: String?) : String {
+        return string?.replace("<[^>]*>".toRegex(),"") ?: ""
     }
 }

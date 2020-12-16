@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            android:id="@+id/textError"
+            android:id="@+id/text_error"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/text_list_footer_error"

@@ -7,7 +7,7 @@
     tools:context=".fragments.list.ListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvItems"
+        android:id="@+id/rv_items"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -19,7 +19,7 @@
         tools:visibility="visible" />
 
     <LinearLayout
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textNotFound"
+        android:id="@+id/text_not_found"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/message_not_found"
@@ -51,7 +51,7 @@
         tools:visibility="visible" />
 
     <LinearLayout
-        android:id="@+id/layoutError"
+        android:id="@+id/layout_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textError"
+            android:id="@+id/text_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_error"
@@ -73,10 +73,10 @@
             tools:visibility="visible" />
 
         <Button
-            android:id="@+id/btnRetry"
+            android:id="@+id/btn_retry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Retry"
+            android:text="@string/btn_retry"
             />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

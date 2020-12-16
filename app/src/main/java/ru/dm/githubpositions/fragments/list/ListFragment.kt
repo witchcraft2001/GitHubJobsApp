@@ -35,7 +35,7 @@ class ListFragment : Fragment() {
     }
 
     private fun setListeners() {
-        btnRetry.setOnClickListener { listViewModel.retry() }
+        btn_retry.setOnClickListener { listViewModel.retry() }
     }
 
     private fun initAdapter() {
@@ -45,17 +45,17 @@ class ListFragment : Fragment() {
                     listViewModel.itemClicked(item)
                 }
             })
-        rvItems.adapter = positionListAdapter
+        rv_items.adapter = positionListAdapter
         listViewModel.positions.observe(viewLifecycleOwner, { positionListAdapter.submitList(it) })
     }
 
     private fun initState() {
         listViewModel.getState().observe(viewLifecycleOwner, Observer { state ->
-            textNotFound.visibility =
+            text_not_found.visibility =
                 if (listViewModel.listIsEmpty() && state == State.DONE) VISIBLE else GONE
-            progressBar.visibility =
+            progress_bar.visibility =
                 if (listViewModel.listIsEmpty() && state == State.LOADING) VISIBLE else GONE
-            layoutError.visibility =
+            layout_error.visibility =
                 if (listViewModel.listIsEmpty() && state == State.ERROR) VISIBLE else GONE
             if (!listViewModel.listIsEmpty()) {
                 positionListAdapter.setState(state ?: State.DONE)
