@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_position_list_footer.view.*
 import kotlinx.android.synthetic.main.layout_position_list_item.view.*
 import ru.dm.githubpositions.R
+import ru.dm.githubpositions.adapters.listeners.AdapterOnClickListener
 import ru.dm.githubpositions.data.models.Position
 import ru.dm.githubpositions.data.models.State
 
-class PositionListAdapter(private val retry: () -> Unit) : PagedListAdapter<Position, RecyclerView.ViewHolder>(PositionDiffCallback) {
+class PositionListAdapter(
+    private val retry: () -> Unit,
+    private val clickListener: AdapterOnClickListener<Position>?
+    ) : PagedListAdapter<Position, RecyclerView.ViewHolder>(PositionDiffCallback) {
     private val DATA_VIEW_TYPE = 1
     private val FOOTER_VIEW_TYPE = 2
 
@@ -37,7 +41,7 @@ class PositionListAdapter(private val retry: () -> Unit) : PagedListAdapter<Posi
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == DATA_VIEW_TYPE)
-            (holder as PositionViewHolder).bind(getItem(position))
+            (holder as PositionViewHolder).bind(getItem(position), clickListener)
         else (holder as ListFooterViewHolder).bind(state)
     }
 
@@ -68,11 +72,12 @@ class PositionViewHolder(view: View): RecyclerView.ViewHolder(view) {
         }
     }
 
-    fun bind(position: Position?) {
+    fun bind(position: Position?, clickListener: AdapterOnClickListener<Position>?) {
         position?.let {
             itemView.textTitle.text = position.title
             itemView.textCompany.text = position.company
             itemView.textHowToApply.text = position.howToApply
+            itemView.setOnClickListener { clickListener?.onClickItem(position) }
         }
     }
 }

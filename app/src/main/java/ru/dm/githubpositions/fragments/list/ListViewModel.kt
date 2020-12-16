@@ -1,5 +1,6 @@
 package ru.dm.githubpositions.fragments.list
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -11,9 +12,14 @@ import ru.dm.githubpositions.data.PositionsDataSource
 import ru.dm.githubpositions.data.PositionsDataSourceFactory
 import ru.dm.githubpositions.data.models.Position
 import ru.dm.githubpositions.data.models.State
+import ru.dm.githubpositions.fragments.details.DetailsFragment
+import ru.dm.githubpositions.navigation.FragmentNavigationIntent
+import ru.dm.githubpositions.navigation.NavigationService
 
-class ListViewModel : ViewModel() {
-    private val networkService = GitHubPositionsService.getService()
+class ListViewModel(
+    private val networkService: GitHubPositionsService,
+    private val navigationService: NavigationService
+) : ViewModel() {
 
     val positions: LiveData<PagedList<Position>>
 
@@ -29,6 +35,22 @@ class ListViewModel : ViewModel() {
             .build()
 
         positions = LivePagedListBuilder(positionsDataSourceFactory, config).build()
+    }
+
+    fun itemClicked(position: Position) {
+        val bundle = Bundle().apply {
+            putString(DetailsFragment.POSITION_ID, position.id)
+            putString(DetailsFragment.POSITION_TITLE, position.title)
+            putString(DetailsFragment.POSITION_COMPANY, position.company)
+            putString(DetailsFragment.POSITION_COMPANY_URL, position.companyUrl)
+            putString(DetailsFragment.POSITION_CREATED_AT, position.createdAt)
+            putString(DetailsFragment.POSITION_DESCRIPTION, position.description)
+            putString(DetailsFragment.POSITION_HOW_TO_APPLY, position.howToApply)
+            putString(DetailsFragment.POSITION_LOCATION, position.location)
+            putString(DetailsFragment.POSITION_TYPE, position.type)
+            putString(DetailsFragment.POSITION_URL, position.url)
+        }
+        navigationService.navigate(FragmentNavigationIntent(DetailsFragment::class.java, bundle))
     }
 
     fun retry() {

@@ -21,4 +21,17 @@ class DetailsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_details, container, false)
     }
+
+    companion object {
+        const val POSITION_ID = "POSITION_ID"
+        const val POSITION_TYPE = "POSITION_TYPE"
+        const val POSITION_URL = "POSITION_URL"
+        const val POSITION_COMPANY = "POSITION_COMPANY"
+        const val POSITION_CREATED_AT = "POSITION_CREATED_AT"
+        const val POSITION_LOCATION = "POSITION_LOCATION"
+        const val POSITION_TITLE = "POSITION_TITLE"
+        const val POSITION_DESCRIPTION = "POSITION_DESCRIPTION"
+        const val POSITION_HOW_TO_APPLY = "POSITION_HOW_TO_APPLY"
+        const val POSITION_COMPANY_URL = "POSITION_COMPANY_URL"
+    }
 }
