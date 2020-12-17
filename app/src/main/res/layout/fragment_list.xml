@@ -39,17 +39,6 @@
             android:text="@string/text_loading" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_not_found"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/message_not_found"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
     <LinearLayout
         android:id="@+id/layout_error"
         android:layout_width="wrap_content"

@@ -51,8 +51,6 @@ class ListFragment : Fragment() {
 
     private fun initState() {
         listViewModel.getState().observe(viewLifecycleOwner, Observer { state ->
-            text_not_found.visibility =
-                if (listViewModel.listIsEmpty() && state == State.DONE) VISIBLE else GONE
             progress_bar.visibility =
                 if (listViewModel.listIsEmpty() && state == State.LOADING) VISIBLE else GONE
             layout_error.visibility =

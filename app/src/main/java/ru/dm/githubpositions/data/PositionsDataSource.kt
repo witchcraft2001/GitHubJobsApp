@@ -27,6 +27,11 @@ class PositionsDataSource(
     private val parser = SimpleDateFormat("EEE MMM d HH:mm:ss 'UTC' yyyy")
 
     private var lastDate = ""
+    private val today = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 0) }.time
+    private val yesterday = Calendar.getInstance().apply {
+        add(Calendar.DATE, -1)
+        set(Calendar.HOUR_OF_DAY,0)
+    }.time
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -87,7 +92,7 @@ class PositionsDataSource(
         this.state.postValue(state)
     }
 
-    private fun toListModel(list: List<PositionResponse>) : List<Item> {
+    private fun toListModel(list: List<PositionResponse>): List<Item> {
         val newList = ArrayList<Item>()
         for (item in list) {
             val model = toModel(item)
@@ -123,7 +128,18 @@ class PositionsDataSource(
     private fun toInnerDateString(string: String): String {
         try {
             val date = parser.parse(string) ?: return ""
-            return format.format(date)
+            return when {
+                date >= today -> {
+                    "Сегодня"
+                }
+                date >= yesterday && date < today -> {
+                    "Вчера"
+                }
+                else -> {
+                    format.format(date)
+                }
+
+            }
         } catch (exception: ParseException) {
             return ""
         }

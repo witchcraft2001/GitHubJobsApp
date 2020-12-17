@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import kotlinx.android.synthetic.main.layout_position_list_footer.view.*
 import kotlinx.android.synthetic.main.layout_position_list_item.view.*
 import kotlinx.android.synthetic.main.layout_position_list_item.view.textTitle
@@ -56,9 +58,6 @@ class PositionListAdapter(
             SECTION_VIEW_TYPE -> (holder as SectionViewHolder).bind(getItem(position))
             else -> (holder as ListFooterViewHolder).bind(state)
         }
-//        if (getItemViewType(position) == DATA_VIEW_TYPE)
-//            (holder as PositionViewHolder).bind(getItem(position), clickListener)
-//        else (holder as ListFooterViewHolder).bind(state)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -100,6 +99,11 @@ class PositionViewHolder(view: View): RecyclerView.ViewHolder(view) {
             itemView.textCompany.text = position.company
             itemView.textHowToApply.text = position.howToApply
             itemView.setOnClickListener { clickListener?.onClickItem(position) }
+            Glide
+                .with(itemView)
+                .load(position.companyLogo)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(itemView.imageThumb)
         }
     }
 }
