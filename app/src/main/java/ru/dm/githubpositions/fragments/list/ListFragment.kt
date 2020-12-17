@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.dm.githubpositions.R
 import ru.dm.githubpositions.adapters.PositionListAdapter
 import ru.dm.githubpositions.adapters.listeners.AdapterOnClickListener
-import ru.dm.githubpositions.data.models.Position
+import ru.dm.githubpositions.data.models.PositionItem
 import ru.dm.githubpositions.data.models.State
 
 class ListFragment : Fragment() {
@@ -40,8 +40,8 @@ class ListFragment : Fragment() {
 
     private fun initAdapter() {
         positionListAdapter = PositionListAdapter({ listViewModel.retry() },
-            object : AdapterOnClickListener<Position> {
-                override fun onClickItem(item: Position) {
+            object : AdapterOnClickListener<PositionItem> {
+                override fun onClickItem(item: PositionItem) {
                     listViewModel.itemClicked(item)
                 }
             })

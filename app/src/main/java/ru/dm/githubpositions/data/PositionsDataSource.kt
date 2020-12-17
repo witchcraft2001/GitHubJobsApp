@@ -7,28 +7,30 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
-import ru.dm.githubpositions.data.models.Position
+import ru.dm.githubpositions.data.models.Item
+import ru.dm.githubpositions.data.models.PositionItem
+import ru.dm.githubpositions.data.models.SectionItem
 import ru.dm.githubpositions.data.models.State
 import ru.dm.githubpositions.data.responses.PositionResponse
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class PositionsDataSource(
     private val networkService: GitHubPositionsService,
     private val compositeDisposable: CompositeDisposable
-) : PageKeyedDataSource<Int, Position>() {
+) : PageKeyedDataSource<Int, Item>() {
 
     var state: MutableLiveData<State> = MutableLiveData()
     private var retryCompletable: Completable? = null
     private val format = SimpleDateFormat("dd/MM/yyyy")
     private val parser = SimpleDateFormat("EEE MMM d HH:mm:ss 'UTC' yyyy")
 
+    private var lastDate = ""
+
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, Position>
+        callback: LoadInitialCallback<Int, Item>
     ) {
         updateState(State.LOADING)
         compositeDisposable.add(
@@ -47,9 +49,9 @@ class PositionsDataSource(
         )
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Position>) {}
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Item>) {}
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Position>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Item>) {
         updateState(State.LOADING)
         compositeDisposable.add(
             networkService.getPositions(params.key)
@@ -85,13 +87,25 @@ class PositionsDataSource(
         this.state.postValue(state)
     }
 
-    private fun toListModel(list: List<PositionResponse>) =
-        list.map { item -> toModel(item) }.toList()
+    private fun toListModel(list: List<PositionResponse>) : List<Item> {
+        val newList = ArrayList<Item>()
+        for (item in list) {
+            val model = toModel(item)
+            if (model.createdAt.equals(lastDate)) {
+                newList.add(model)
+            } else {
+                lastDate = model.createdAt
+                newList.add(SectionItem(model.createdAt))
+                newList.add(model)
+            }
+        }
+        return newList
+    }
 
-    private fun toModel(positionResponse: PositionResponse): Position {
+    private fun toModel(positionResponse: PositionResponse): PositionItem {
         positionResponse.apply {
-            return Position(
-                positionResponse.id,
+            return PositionItem(
+                id,
                 toInnerDateString(createdAt),
                 removeTags(company),
                 removeTags(title),

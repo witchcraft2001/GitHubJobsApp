@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_details.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.dm.githubpositions.R
-import ru.dm.githubpositions.data.models.Position
+import ru.dm.githubpositions.data.models.PositionItem
 
 class DetailsFragment : Fragment() {
     private val detailsViewModel: DetailsViewModel by viewModel()
@@ -17,7 +17,7 @@ class DetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            val position = Position(
+            val position = PositionItem(
                 it.getString(POSITION_ID) ?: "",
                 it.getString(POSITION_CREATED_AT) ?: "",
                 it.getString(POSITION_COMPANY) ?: "",

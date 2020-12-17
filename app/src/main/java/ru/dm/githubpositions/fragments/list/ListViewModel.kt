@@ -10,18 +10,19 @@ import io.reactivex.disposables.CompositeDisposable
 import ru.dm.githubpositions.data.GitHubPositionsService
 import ru.dm.githubpositions.data.PositionsDataSource
 import ru.dm.githubpositions.data.PositionsDataSourceFactory
-import ru.dm.githubpositions.data.models.Position
+import ru.dm.githubpositions.data.models.Item
+import ru.dm.githubpositions.data.models.PositionItem
 import ru.dm.githubpositions.data.models.State
 import ru.dm.githubpositions.fragments.details.DetailsFragment
 import ru.dm.githubpositions.navigation.FragmentNavigationIntent
 import ru.dm.githubpositions.navigation.NavigationService
 
 class ListViewModel(
-    private val networkService: GitHubPositionsService,
+    networkService: GitHubPositionsService,
     private val navigationService: NavigationService
 ) : ViewModel() {
 
-    val positions: LiveData<PagedList<Position>>
+    val positions: LiveData<PagedList<Item>>
 
     private val positionsDataSourceFactory: PositionsDataSourceFactory
 
@@ -37,7 +38,7 @@ class ListViewModel(
         positions = LivePagedListBuilder(positionsDataSourceFactory, config).build()
     }
 
-    fun itemClicked(position: Position) {
+    fun itemClicked(position: PositionItem) {
         val bundle = Bundle().apply {
             putString(DetailsFragment.POSITION_ID, position.id)
             putString(DetailsFragment.POSITION_TITLE, position.title)
