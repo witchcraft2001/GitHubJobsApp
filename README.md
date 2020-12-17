@@ -4,6 +4,7 @@ GitHubPositions
 
 This is a small example application for GitHub Jobs API with using:
 * Android Jetpack ViewModel;
+* Android Architecture Components LiveData;
 * Android Jetpack Paging library;
 * Retrofit2;
 * RxJava2;
