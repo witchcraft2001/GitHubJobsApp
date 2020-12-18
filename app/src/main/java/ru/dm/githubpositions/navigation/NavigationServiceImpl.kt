@@ -1,13 +1,14 @@
 package ru.dm.githubpositions.navigation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-
 class NavigationServiceImpl : NavigationService {
-    private val _intent = MutableLiveData<NavigationIntent>()
-    override val intent : LiveData<NavigationIntent> get() = _intent
+
+    private var _listener: NavigationListener? = null
 
     override fun navigate(intent: NavigationIntent) {
-        _intent.postValue(intent)
+        _listener?.onNavigate(intent)
+    }
+
+    override fun setNavigationListener(listener: NavigationListener) {
+        _listener = listener
     }
 }
